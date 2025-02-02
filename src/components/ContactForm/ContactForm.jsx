@@ -18,12 +18,12 @@ export default function ContactForm({ onAddContact }) {
       initialValues={{ name: "", number: "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
-        onAddContact(values.name, values.number);
+        onAddContact({ name: values.name, number: values.number });
         resetForm();
       }}
     >
       {({ isSubmitting }) => (
-        <Form >
+        <Form>
           <label>
             Name:
             <Field type="text" name="name" />
@@ -34,7 +34,9 @@ export default function ContactForm({ onAddContact }) {
             <Field type="text" name="number" />
             <ErrorMessage name="number" component="div" />
           </label>
-          <button type="submit" disabled={isSubmitting}>Add Contact</button>
+          <button type="submit" disabled={isSubmitting}>
+            Add Contact
+          </button>
         </Form>
       )}
     </Formik>
