@@ -56,9 +56,7 @@ export default function App() {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    if (contacts.length > 0) {
-      localStorage.setItem("contacts", JSON.stringify(contacts));
-    }
+    localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
   // const addContact = (name, number) => {
