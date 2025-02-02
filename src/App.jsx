@@ -56,33 +56,51 @@ export default function App() {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    if (contacts.length > 0) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
   }, [contacts]);
 
-  const addContact = (name, number) => {
-    const newContact = { id: nanoid(), name, number };
-    setContacts((prevContacts) => [...prevContacts, newContact]);
+  // const addContact = (name, number) => {
+  //   const newContact = { id: nanoid(), name, number };
+  //   setContacts((prevContacts) => [...prevContacts, newContact]);
+  // };
+
+  const addContact = (newContact) => {
+    if (
+      contacts.some(
+        (contact) =>
+          contact.name.toLowerCase() === newContact.name.toLowerCase()
+      )
+    ) {
+      alert(`${newContact.name} is already in contacts`);
+      return;
+    }
+    setContacts((prevContacts) => [
+      ...prevContacts,
+      { id: nanoid(), ...newContact },
+    ]);
   };
 
-  const deleteContact = (contactId) => {
+  const deleteContact = (id) => {
     setContacts((prevContacts) =>
-      prevContacts.filter(({ id }) => id !== contactId)
+      prevContacts.filter((contact) => contact.id !== id)
     );
   };
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+  const handleFilterChange = (value) => {
+    setFilter(value);
   };
 
-  const filteredContacts = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(filter.toLowerCase())
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAddContact={addContact} />
-      <SearchBox value={filter} onChange={handleFilterChange} />
+      <SearchBox filter={filter} onChange={handleFilterChange} />
       <ContactList
         contacts={filteredContacts}
         onDeleteContact={deleteContact}

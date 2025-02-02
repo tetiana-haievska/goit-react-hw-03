@@ -1,13 +1,12 @@
-
-export default function SearchBox({ filter, onFilterChange }) {
+export default function SearchBox({ filter, onChange }) {
   return (
-    <div >
+    <div>
       <label>
         Find contacts by name:
         <input
           type="text"
           value={filter}
-          onChange={(e) => onFilterChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
           placeholder="Search contacts..."
         />
       </label>
